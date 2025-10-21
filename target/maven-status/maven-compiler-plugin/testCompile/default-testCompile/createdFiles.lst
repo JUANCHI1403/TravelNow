@@ -1,0 +1,7 @@
+pages\HomePage.class
+steps\CancelSteps.class
+steps\SearchSteps.class
+pages\SearchResultsPage.class
+pages\BookingPage.class
+steps\BookingSteps.class
+hooks\Hooks.class

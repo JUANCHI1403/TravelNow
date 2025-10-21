@@ -2,8 +2,6 @@ package hooks;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,30 +9,36 @@ import java.nio.file.StandardCopyOption;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 
 public class Hooks {
   private static WebDriver driver;
 
-  @Before(order = 0)
+  @Before
   public void setUp() {
-    WebDriverManager.chromedriver().setup();
-    driver = new ChromeDriver();
+    // Configurar EdgeDriver manualmente
+    System.setProperty(
+      "webdriver.edge.driver",
+      "C:\\drivers\\msedgedriver.exe"
+    );
+    driver = new EdgeDriver();
     driver.manage().window().maximize();
-    // timeout y otros settings aquí
+    System.out.println("=== Navegador Edge iniciado correctamente ===");
   }
 
-  @After(order = 0)
-  public void tearDown(Scenario scenario) {
-    if (scenario.isFailed()) {
-      takeScreenshot(scenario.getName());
-    }
+  @After
+  public void tearDown() {
     if (driver != null) {
       driver.quit();
+      System.out.println("=== Navegador cerrado correctamente ===");
     }
   }
 
-  private void takeScreenshot(String name) {
+  public static WebDriver getDriver() {
+    return driver;
+  }
+
+  public static void takeScreenshot(String name) {
     try {
       File scr = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
       Path dest = Path.of(
@@ -47,9 +51,5 @@ public class Hooks {
     } catch (Exception e) {
       System.err.println("No se pudo tomar screenshot: " + e.getMessage());
     }
-  }
-
-  public static WebDriver getDriver() {
-    return driver;
   }
 }

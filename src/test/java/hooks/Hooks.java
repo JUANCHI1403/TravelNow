@@ -16,11 +16,6 @@ public class Hooks {
 
   @Before
   public void setUp() {
-    // Configurar EdgeDriver manualmente
-    System.setProperty(
-      "webdriver.edge.driver",
-      "C:\\drivers\\msedgedriver.exe"
-    );
     driver = new EdgeDriver();
     driver.manage().window().maximize();
     System.out.println("=== Navegador Edge iniciado correctamente ===");

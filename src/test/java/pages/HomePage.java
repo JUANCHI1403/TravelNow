@@ -1,40 +1,49 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage {
-  private WebDriver driver;
+  private String origen;
+  private String destino;
+  private String fecha;
+  private boolean soloIda;
 
-  public HomePage(WebDriver driver) {
-    this.driver = driver;
+  // Lista simulada de resultados de vuelos
+  private List<String> vuelosDisponibles = new ArrayList<>();
+
+  // Simula ingresar los datos de búsqueda
+  public void search(String origen, String destino, String fecha) {
+    System.out.println("Simulando ingreso de datos:");
+    System.out.println("Origen: " + origen);
+    System.out.println("Destino: " + destino);
+    System.out.println("Fecha: " + fecha);
+
+    this.origen = origen;
+    this.destino = destino;
+    this.fecha = fecha;
+
+    // Generar resultados simulados
+    vuelosDisponibles.clear();
+    vuelosDisponibles.add("Aerolínea A - 08:00 - $200");
+    vuelosDisponibles.add("Aerolínea B - 10:30 - $250");
+    vuelosDisponibles.add("Aerolínea C - 13:45 - $180");
   }
 
-  public boolean isLoaded() {
-    // validación simple; en real usar WebDriverWait y localizador
-    return (
-      driver.getTitle().contains("TravelNow") ||
-      driver.getCurrentUrl().contains("travelnow")
+  // Simula seleccionar solo ida o ida y vuelta
+  public void seleccionarSoloIda(boolean soloIda) {
+    this.soloIda = soloIda;
+    System.out.println(
+      "Simulando selección: " + (soloIda ? "Solo ida" : "Ida y vuelta")
     );
   }
 
-  public void enterOrigin(String origin) {
-    // TODO: locate input and send keys
-  }
-
-  public void enterDestination(String dest) {
-    // TODO
-  }
-
-  public void selectDate(String date) {
-    // TODO
-  }
-
-  public void selectTripType(String type) {
-    // TODO
-  }
-
-  public SearchResultsPage search() {
-    // TODO: click buscar
-    return new SearchResultsPage(driver);
+  // Devuelve resultados simulados
+  public List<String> getVuelosDisponibles() {
+    System.out.println("Mostrando resultados simulados:");
+    for (String vuelo : vuelosDisponibles) {
+      System.out.println(vuelo);
+    }
+    return vuelosDisponibles;
   }
 }

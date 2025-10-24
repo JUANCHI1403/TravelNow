@@ -1,6 +1,7 @@
 pages\HomePage.class
 steps\CancelSteps.class
 steps\SearchSteps.class
+Utils\Utils.class
 pages\SearchResultsPage.class
 pages\BookingPage.class
 steps\BookingSteps.class

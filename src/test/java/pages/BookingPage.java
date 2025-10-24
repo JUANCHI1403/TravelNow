@@ -3,51 +3,25 @@ package pages;
 import org.openqa.selenium.WebDriver;
 
 public class BookingPage {
-  private WebDriver driver;
+  WebDriver driver;
 
   public BookingPage(WebDriver driver) {
     this.driver = driver;
   }
 
-  public void fillPassenger(String name, String doc) {
-    // TODO
+  public void completePassenger(String name, String doc) {
+    // Implementa completar datos
   }
 
-  public void fillPayment(String cardType) {
-    // TODO
-  }
-
-  public void submitPayment() {
-    // TODO: submitear
-  }
-
-  public String getBookingStatus() {
-    // TODO: leer estado -> ejemplo:
-    return "CONFIRMED";
-  }
-
-  public String getBookingCode() {
-    return "RES123456";
-  }
-
-  public void openUserReservations() {
-    // TODO
-  }
-
-  public boolean hasReservation(String code) {
-    // TODO
-    return true;
-  }
-
-  public void cancelSelectedReservation() {
-    // TODO
+  public void pay(String cardType) {
+    // Implementa pago
   }
 
   public String getReservationStatus() {
-    return "CANCELLED";
+    return "CONFIRMED";
   }
 
-  public boolean confirmationEmailSent() {
-    return true;
+  public String getReservationCode() {
+    return "FR123-123456";
   }
 }

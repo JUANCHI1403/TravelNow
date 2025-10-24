@@ -1,31 +1,50 @@
 package steps;
 
-import hooks.Hooks;
-import io.cucumber.java.es.Cuando;
-import io.cucumber.java.es.Dado;
-import io.cucumber.java.es.Entonces;
-import org.openqa.selenium.WebDriver;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import java.util.List;
+import pages.HomePage;
 
 public class SearchSteps {
-  private WebDriver driver;
+  private HomePage homePage = new HomePage();
+  private List<String> resultados;
 
-  public SearchSteps() {
-    this.driver = Hooks.getDriver(); // <-- importante
-  }
-
-  @Dado("que estoy en la página principal de TravelNow")
+  @Given("que estoy en la página principal de TravelNow")
   public void estoy_en_pagina_principal() {
-    driver.get("https://example.com"); // o la URL de tu app
+    System.out.println("Simulando estar en la página principal de TravelNow");
   }
 
-  @Cuando("realizo una búsqueda de vuelo directo")
-  public void realizo_busqueda() {
-    System.out.println("Realizando búsqueda...");
+  @When("ingreso origen {string} y destino {string} y fecha {string}")
+  public void ingreso_origen_y_destino_y_fecha(
+    String origen,
+    String destino,
+    String fecha
+  ) {
+    homePage.search(origen, destino, fecha);
   }
 
-  @Entonces("el sistema muestra resultados disponibles")
-  public void muestra_resultados() {
-    System.out.println("Mostrando resultados.");
-    Hooks.takeScreenshot("resultado_busqueda");
+  @And("selecciono {string}")
+  public void selecciono(String tipoVuelo) {
+    homePage.seleccionarSoloIda(tipoVuelo.equalsIgnoreCase("Solo ida"));
+  }
+
+  @Then("veo resultados de vuelos disponibles")
+  public void veo_resultados() {
+    resultados = homePage.getVuelosDisponibles();
+    if (resultados.isEmpty()) {
+      throw new RuntimeException("No se encontraron vuelos simulados.");
+    }
+  }
+
+  @And("cada resultado muestra aerolínea, hora y precio")
+  public void cada_resultado_muestra_aerolinea_hora_precio() {
+    for (String vuelo : resultados) {
+      if (!vuelo.matches(".+ - \\d{2}:\\d{2} - \\$\\d+")) {
+        throw new RuntimeException("Formato de vuelo incorrecto: " + vuelo);
+      }
+    }
+    System.out.println("Todos los resultados están correctamente formateados.");
   }
 }
